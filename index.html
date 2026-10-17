@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My Dropshipping Store</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="logo">My Dropshipping Store</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <button id="cart-button" class="cart-btn">Cart (<span id="cart-count">0</span>)</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h2>Sell worldwide — we handle the fulfillment</h2>
+        <p>High-converting dropshipping store template. Replace products and images, connect payments, and launch.</p>
+        <a class="btn" href="shop.html">Start Shopping</a>
+      </div>
+    </section>
+
+    <section class="features container">
+      <h3>Why choose us</h3>
+      <div class="grid">
+        <div class="card">Curated products</div>
+        <div class="card">Fast shipping</div>
+        <div class="card">Secure payments</div>
+      </div>
+    </section>
+
+    <section class="featured container">
+      <h3>Featured products</h3>
+      <div id="featured-products" class="product-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> My Dropshipping Store</p>
+    </div>
+  </footer>
+
+  <div id="cart-modal" class="cart-modal hidden">
+    <div class="cart-content">
+      <button id="close-cart" class="close">×</button>
+      <h3>Your cart</h3>
+      <div id="cart-items"></div>
+      <div class="cart-footer">
+        <div>Total: $<span id="cart-total">0.00</span></div>
+        <button id="checkout-btn" class="btn primary">Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
