@@ -1,50 +1,50 @@
 [
   {
-    "id": "p1",
-    "name": "Wireless Earbuds",
-    "description": "Comfortable true wireless earbuds with long battery life.",
+    "id": "v1",
+    "name": "Velora Classic Hoodie — Black",
+    "description": "Soft brushed interior, relaxed fit. Available in S, M, L, XL.",
     "price": 29.99,
-    "image": "https://images.unsplash.com/photo-1585386959984-a415522e3d79?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=1f2b1e9d7b1cf1f0a6d2f9c236b6b3d9",
-    "sku": "EB-001"
+    "image": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=1e8c5d5d6a7f8c9b0d3e4f5a6b7c8d9e",
+    "sku": "VEL-CL-BK"
   },
   {
-    "id": "p2",
-    "name": "Portable Blender",
-    "description": "Blend smoothies on the go with this USB-rechargeable blender.",
+    "id": "v2",
+    "name": "Velora Classic Hoodie — Grey",
+    "description": "Everyday essential hoodie with clean lines.",
+    "price": 29.99,
+    "image": "https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e",
+    "sku": "VEL-CL-GR"
+  },
+  {
+    "id": "v3",
+    "name": "Velora Zip Hoodie — Navy",
+    "description": "Zip-up style for layering, durable zipper.",
+    "price": 34.99,
+    "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f",
+    "sku": "VEL-ZP-NV"
+  },
+  {
+    "id": "v4",
+    "name": "Velora Oversized Hoodie — Olive",
+    "description": "Trendy oversized cut for a relaxed look.",
     "price": 39.99,
-    "image": "https://images.unsplash.com/photo-1580910051074-4b2f5d9d5e0b?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=7f6a1b3e3e3a4f2f1d2c9d6c8b7a9cde",
-    "sku": "BL-002"
+    "image": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9g",
+    "sku": "VEL-OV-OL"
   },
   {
-    "id": "p3",
-    "name": "Smartwatch",
-    "description": "A lightweight smartwatch with notifications and fitness tracking.",
-    "price": 69.99,
-    "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=3d1f2f9c6a1b8e2c4d5e6f7a8b9c0d1e",
-    "sku": "SW-003"
+    "id": "v5",
+    "name": "Velora Crop Hoodie — Pink",
+    "description": "Cropped length for a modern silhouette.",
+    "price": 27.99,
+    "image": "https://images.unsplash.com/photo-1520975913450-7c1c1b1bb1d2?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=5e6f7a8b9c0d1e2f3a4b5c6d7e8f9g0",
+    "sku": "VEL-CR-PK"
   },
   {
-    "id": "p4",
-    "name": "Neck Massage Pillow",
-    "description": "Comfortable heated neck massager for relaxation after long days.",
-    "price": 49.99,
-    "image": "https://images.unsplash.com/photo-1588167100211-46a0f8af3f4b?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=4c3b2a1d5e6f7a8b9c0d1e2f3a4b5c6d",
-    "sku": "NP-004"
-  },
-  {
-    "id": "p5",
-    "name": "Waterproof Phone Pouch",
-    "description": "Keep your phone safe at the beach or pool.",
-    "price": 9.99,
-    "image": "https://images.unsplash.com/photo-1508898578281-774ac4893a2b?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d",
-    "sku": "WP-005"
-  },
-  {
-    "id": "p6",
-    "name": "LED Ring Light",
-    "description": "Perfect lighting for videos and product photos.",
-    "price": 24.99,
-    "image": "https://images.unsplash.com/photo-1526178618570-1fdd0f7d3e6a?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e",
-    "sku": "RL-006"
+    "id": "v6",
+    "name": "Velora Performance Hoodie — Black",
+    "description": "Lightweight, moisture-wicking material for active use.",
+    "price": 34.99,
+    "image": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=6f7a8b9c0d1e2f3a4b5c6d7e8f9g0h",
+    "sku": "VEL-PF-BK"
   }
 ]

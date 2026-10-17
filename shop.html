@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Shop — My Dropshipping Store</title>
+  <title>Shop — Velora</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <h1 class="logo">My Dropshipping Store</h1>
+      <h1 class="logo">Velora</h1>
       <nav>
         <a href="index.html">Home</a>
         <a href="shop.html">Shop</a>
@@ -21,13 +21,14 @@
   </header>
 
   <main class="container">
-    <h2>Shop</h2>
+    <h2>Shop Hoodies</h2>
+    <p>All prices shown in USD. We ship internationally.</p>
     <div id="products" class="product-grid"></div>
   </main>
 
   <footer>
     <div class="container">
-      <p>&copy; <span id="year"></span> My Dropshipping Store</p>
+      <p>&copy; <span id="year"></span> Velora — Contact: <a href="tel:+9182852029">+91 82852029</a></p>
     </div>
   </footer>
 
@@ -44,5 +45,6 @@
   </div>
 
   <script src="app.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
 </body>
 </html>
