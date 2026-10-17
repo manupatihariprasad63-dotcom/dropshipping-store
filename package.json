@@ -1,0 +1,8 @@
+{
+  "name": "velora-store",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "stripe": "^16.10.0"
+  }
+}

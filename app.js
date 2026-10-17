@@ -1,141 +1,197 @@
-const PRODUCTS_URL = 'products.json'
+const PRODUCTS_URL = 'products.json';
 
-// Utilities
-function $ (sel){return document.querySelector(sel)}
-function formatPrice(n){return (n).toFixed(2)}
-
-// Cart
-let cart = JSON.parse(localStorage.getItem('cart')||'[]')
-function saveCart(){localStorage.setItem('cart', JSON.stringify(cart)); renderCartCount();}
-function addToCart(productId){
-  const p = products.find(x=>x.id===productId)
-  if(!p) return
-  const existing = cart.find(i=>i.id===productId)
-  if(existing) existing.qty++
-  else cart.push({id:productId,qty:1,price:p.price,name:p.name,image:p.image})
-  saveCart()
-  alert('Added to cart: '+p.name)
-}
-function removeFromCart(productId){cart = cart.filter(i=>i.id!==productId); saveCart(); renderCartModal();}
-function changeQty(productId,qty){const it = cart.find(i=>i.id===productId); if(!it) return; it.qty = Math.max(1,qty); saveCart(); renderCartModal();}
-function cartTotal(){return cart.reduce((s,i)=>s + i.qty * i.price,0)}
-
-// Render helpers
-function renderProducts(list, container){
-  const el = $(container)
-  el.innerHTML = ''
-  list.forEach(p=>{
-    const div = document.createElement('div'); div.className='product'
-    div.innerHTML = `
-      <img src="${p.image}" alt="${p.name}">
-      <h4>${p.name}</h4>
-      <div class="price">$${formatPrice(p.price)}</div>
-      <p class="muted">${p.description}</p>
-      <button class="btn" data-add="${p.id}">Add to cart</button>
-    `
-    el.appendChild(div)
-  })
+function $(selector) {
+  return document.querySelector(selector);
 }
 
-function renderFeatured(list){renderProducts(list.slice(0,4),'#featured-products')}
-
-function renderCartCount(){
-  const count = cart.reduce((s,i)=>s + i.qty,0)
-  const el = $('#cart-count')
-  if(el) el.textContent = count
+function formatPrice(value) {
+  return Number(value).toFixed(2);
 }
 
-// Cart modal
-function renderCartModal(){
-  const container = $('#cart-items')
-  container.innerHTML = ''
-  if(cart.length===0){container.innerHTML='<p>Your cart is empty</p>'; $('#cart-total').textContent='0.00'; return}
-  cart.forEach(i=>{
-    const div = document.createElement('div'); div.className='cart-item'
-    div.innerHTML = `
-      <img src="${i.image}" alt="${i.name}">
-      <div>
-        <div>${i.name}</div>
-        <div>$${formatPrice(i.price)} × <input type="number" min="1" value="${i.qty}" data-qty="${i.id}" style="width:60px"></div>
-        <div><button data-remove="${i.id}" class="btn">Remove</button></div>
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+let products = [];
+
+function saveCart() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCartCount();
+}
+
+function renderCartCount() {
+  const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+  const countEl = $('#cart-count');
+  if (countEl) countEl.textContent = totalQty;
+}
+
+function getProductById(id) {
+  return products.find((product) => product.id === id);
+}
+
+function addToCart(productId) {
+  const product = getProductById(productId);
+  if (!product) return;
+
+  const existing = cart.find((item) => item.id === productId);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id: productId, qty: 1, price: product.price, name: product.name, image: product.image });
+  }
+
+  saveCart();
+  renderCartModal();
+  alert(`${product.name} added to cart.`);
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter((item) => item.id !== productId);
+  saveCart();
+  renderCartModal();
+}
+
+function updateQty(productId, nextQty) {
+  const item = cart.find((entry) => entry.id === productId);
+  if (!item) return;
+  item.qty = Math.max(1, Number(nextQty) || 1);
+  saveCart();
+  renderCartModal();
+}
+
+function cartTotal() {
+  return cart.reduce((sum, item) => sum + item.qty * item.price, 0);
+}
+
+function renderProducts(list, containerSelector) {
+  const container = $(containerSelector);
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  list.forEach((product) => {
+    const card = document.createElement('article');
+    card.className = 'product';
+    card.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <div class="product-body">
+        <h4>${product.name}</h4>
+        <p>${product.description}</p>
+        <div class="product-meta">
+          <span class="price">$${formatPrice(product.price)}</span>
+          <button class="btn add-btn" data-add="${product.id}">Add to cart</button>
+        </div>
       </div>
-    `
-    container.appendChild(div)
-  })
-  $('#cart-total').textContent = formatPrice(cartTotal())
+    `;
+    container.appendChild(card);
+  });
 }
 
-function openCart(){ $('#cart-modal').classList.remove('hidden'); renderCartModal() }
-function closeCart(){ $('#cart-modal').classList.add('hidden') }
+function renderCartModal() {
+  const container = $('#cart-items');
+  const totalEl = $('#cart-total');
+  if (!container || !totalEl) return;
 
-// Checkout: sends order to Formspree for manual processing. Replace with Stripe integration if you want live payments.
-async function checkout(){
-  if(cart.length===0){alert('Cart is empty'); return}
-  const order = {
-    items: cart.map(i=>({id:i.id,name:i.name,qty:i.qty,price:i.price})),
-    total: cartTotal().toFixed(2),
-    created_at: new Date().toISOString()
+  container.innerHTML = '';
+
+  if (cart.length === 0) {
+    container.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+    totalEl.textContent = '0.00';
+    return;
   }
 
-  // POST to Formspree endpoint (replace with your own endpoint)
-  const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID' // <-- REPLACE
-  try{
-    const res = await fetch(FORM_ENDPOINT,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({message: 'New order', order: JSON.stringify(order)})
-    })
-    if(res.ok){
-      alert('Order sent. We will contact you to complete payment and shipping.');
-      cart = []; saveCart(); closeCart();
-    } else {
-      alert('Failed to submit order. Please contact us directly.')
+  cart.forEach((item) => {
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+    row.innerHTML = `
+      <img src="${item.image}" alt="${item.name}">
+      <div class="cart-item-info">
+        <strong>${item.name}</strong>
+        <div class="qty-row">
+          <input type="number" min="1" value="${item.qty}" data-qty="${item.id}">
+          <button class="small-btn" data-remove="${item.id}">Remove</button>
+        </div>
+        <span>$${formatPrice(item.price * item.qty)}</span>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+
+  totalEl.textContent = formatPrice(cartTotal());
+}
+
+function openCart() {
+  const modal = $('#cart-modal');
+  if (modal) modal.classList.remove('hidden');
+  renderCartModal();
+}
+
+function closeCart() {
+  const modal = $('#cart-modal');
+  if (modal) modal.classList.add('hidden');
+}
+
+async function checkout() {
+  const total = cartTotal();
+  if (cart.length === 0) {
+    alert('Your cart is empty.');
+    return;
+  }
+
+  try {
+    const response = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: cart })
+    });
+
+    const payload = await response.json();
+
+    if (!response.ok || !payload.url) {
+      throw new Error(payload.error || 'Checkout creation failed.');
     }
-  } catch(e){
-    alert('Network error. Please try again later.')
+
+    window.location.href = payload.url;
+  } catch (error) {
+    alert('Stripe is not configured yet. Add STRIPE_SECRET_KEY in Netlify and redeploy, or contact Velora directly on WhatsApp at +91 82852029.');
+    window.open('https://wa.me/9182852029', '_blank');
   }
 }
 
-// Wire up UI
-let products = []
-async function init(){
-  // load products
-  try{
-    const r = await fetch(PRODUCTS_URL)
-    products = await r.json()
-  }catch(e){products = []}
+async function initializeStore() {
+  try {
+    const response = await fetch(PRODUCTS_URL);
+    products = await response.json();
+  } catch (error) {
+    products = [];
+  }
 
-  // render
-  if($('#products')) renderProducts(products,'#products')
-  if($('#featured-products')) renderFeatured(products)
+  if ($('#products')) renderProducts(products, '#products');
+  if ($('#featured-products')) renderProducts(products.slice(0, 4), '#featured-products');
 
-  renderCartCount()
+  renderCartCount();
+  renderCartModal();
 
-  // event delegation for add buttons
-  document.body.addEventListener('click', e=>{
-    const add = e.target.getAttribute && e.target.getAttribute('data-add')
-    const remove = e.target.getAttribute && e.target.getAttribute('data-remove')
-    if(add){ addToCart(add) }
-    if(remove){ removeFromCart(remove) }
-    if(e.target.id==='cart-button'){ openCart() }
-    if(e.target.id==='close-cart'){ closeCart() }
-    if(e.target.id==='checkout-btn'){ checkout() }
-  })
+  document.body.addEventListener('click', (event) => {
+    const addId = event.target.getAttribute('data-add');
+    const removeId = event.target.getAttribute('data-remove');
 
-  // qty change
-  document.body.addEventListener('change', e=>{
-    const qtyFor = e.target.getAttribute && e.target.getAttribute('data-qty')
-    if(qtyFor){ changeQty(qtyFor, parseInt(e.target.value||1)) }
-  })
+    if (addId) addToCart(addId);
+    if (removeId) removeFromCart(removeId);
 
-  // bind cart buttons on pages
-  const cb = $('#cart-button')
-  if(cb) cb.addEventListener('click', openCart)
-  const close = $('#close-cart')
-  if(close) close.addEventListener('click', closeCart)
+    if (event.target.id === 'cart-button') openCart();
+    if (event.target.id === 'close-cart') closeCart();
+    if (event.target.id === 'checkout-btn') checkout();
+  });
 
-  const checkoutBtn = $('#checkout-btn')
-  if(checkoutBtn) checkoutBtn.addEventListener('click', checkout)
+  document.body.addEventListener('change', (event) => {
+    const qtyId = event.target.getAttribute('data-qty');
+    if (qtyId) updateQty(qtyId, event.target.value);
+  });
+
+  const cartButton = $('#cart-button');
+  if (cartButton) cartButton.addEventListener('click', openCart);
+  const closeButton = $('#close-cart');
+  if (closeButton) closeButton.addEventListener('click', closeCart);
+  const checkoutButton = $('#checkout-btn');
+  if (checkoutButton) checkoutButton.addEventListener('click', checkout);
 }
 
-init()
+initializeStore();
